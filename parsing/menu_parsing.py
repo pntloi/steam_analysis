@@ -24,8 +24,6 @@ def category_extract(link):
 
     for category in category_list:
         category_item = [a['href'] for a in category.find_all('a', href=True)]
-        # print(category_item)
-        # print("\n")
         unprocessed_list.append(category_item)
     all_cat = flatten(unprocessed_list)  
     return all_cat
