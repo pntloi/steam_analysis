@@ -47,6 +47,25 @@ def game_info_extraction(link):
     bs = BeautifulSoup(html, 'html.parser')
     time.sleep(3)
     
+    
+    ### Get author info
+    author_info = []
+    
+    game_author = bs.find("div", attrs={'class': 'details_block'}).find_all("div", attrs={'class': 'dev_row'})
+    
+    for author in game_author:
+        author_str = str(author.text.strip()).split('\n')
+        author_team = author_str[0]
+        author_name = author_str[1]
+        
+        author_info.append({
+            f'{author_team}': author_name
+        })
+    
+    
+    
+    
+    ### Game mode
     game_mode = []
     
     game_mode_section = bs.find("div", attrs={'class': 'game_area_features_list_ctn'}).find_all('a', attrs={'class': 'game_area_details_specs_ctn'})
@@ -58,10 +77,19 @@ def game_info_extraction(link):
             'mode': available_mode,
             'link': mode_link
         })
+    
+    ### Language
+    available_languages = []
+    game_languages = bs.find_all("table", attrs={'class': 'game_language_options'})
+    
+    for language in game_languages:
+        temp_lang = language.find_all("td", attrs={'class': 'ellipsis'})
+        temp_lang = [td.get_text(strip=True) for td in bs.find_all('td')]
+        available_languages.append(temp_lang)
         
-    print(game_mode)
     
     
+    ### Get all dlc
 
 
     
